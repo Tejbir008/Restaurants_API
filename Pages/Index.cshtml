@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <!-- below mentioned code will create the template to add a new customer -->
+    <!-- below mentioned code will create the template to add a new Restaurant -->
     <div class="modal" tabindex="-1" role="dialog" id="addRestaurants">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -88,7 +88,7 @@
                         </div>
                         <div class="form-group">
                             <label for="contact_Number">Contact Number</label>
-                            <input type="number" class="form-control" id="contact_Number" aria-describedby="contact_NumberHelp" placeholder="Contact Number">
+                            <input type="text" class="form-control" id="contact_Number" aria-describedby="contact_NumberHelp" placeholder="Contact Number">
                         </div>
 
                         <div class="form-group" id="result">
@@ -139,7 +139,7 @@
                         </div>
                         <div class="form-group">
                             <label for="update_contact_Number">Contact Number</label>
-                            <input type="number" class="form-control" id="update_contact_Number" aria-describedby="update_contact_NumberHelp" placeholder="Contact Number">
+                            <input type="text" class="form-control" id="update_contact_Number" aria-describedby="update_contact_NumberHelp" placeholder="Contact Number">
                         </div>
 
                         <div class="form-group" id="update_result">
@@ -217,7 +217,7 @@
             });
         }
 
-        // function to update data of the customer
+        // function to update data of the Restaurant
         function updateRestaurants() {
             var _restaurant_Name = $('#update_restaurant_Name').val();
             var _address = $('#update_address').val();
@@ -239,15 +239,15 @@
                 $("#update_result").html("Success");
                 getAllRestaurants();
             }).fail(function (jqXHR, textStatus) {
-                $("#update_result").html("An error occured when Adding the bike record.");
+                $("#update_result").html("An error occured when Adding the Restaurant record.");
             });
         }
 
 
-        //funtion to delete a particular book based on id
+        //funtion to delete a particular Restaurant based on id
 
         function remove(id) {
-            var yes = confirm("Are you sure you want to delete this Bike?");
+            var yes = confirm("Are you sure you want to delete this Restaurant?");
             if (yes) {
                 $.ajax({
                     type: "DELETE",
