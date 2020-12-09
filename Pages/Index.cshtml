@@ -1,0 +1,289 @@
+﻿@page
+@model Restaurants_API.Pages.IndexModel
+@{
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+    #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+</style>
+</head>
+<body style="background-color:silver;">
+    <div>
+        <!-- Navigation bar code -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+            <a class="navbar-brand" href="#">Restaurants</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <button class="btn btn-outline-dark" data-toggle="modal" data-target="#addRestaurants">Add New Restaurant</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+      
+        <!-- following division is creating main area of the web page where all restaurant data will display -->
+        <div class="container">
+            <div class="row" id="allRestaurants">
+            </div>
+        </div>
+    </div>
+
+    <!-- below mentioned code will create the template to add a new customer -->
+    <div class="modal" tabindex="-1" role="dialog" id="addRestaurants">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="restaurant_Name">Restaurant Name</label>
+                            <input type="text" class="form-control" id="restaurant_Name" aria-describedby="restaurant_NameHelp" placeholder="Restaurant Name">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="Address">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="email_Id">Email Id</label>
+                            <input type="text" class="form-control" id="email_Id" aria-describedby="email_IdHelp" placeholder="Email Id">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_Number">Contact Number</label>
+                            <input type="number" class="form-control" id="contact_Number" aria-describedby="contact_NumberHelp" placeholder="Contact Number">
+                        </div>
+
+                        <div class="form-group" id="result">
+
+
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="addRestaurants()">Add Restaurants</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- below mentioned code will create the template to update restaurant data -->
+
+    <div class="modal" tabindex="-1" role="dialog" id="update_Restaurants">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+
+                            <input type="hidden" class="form-control" id="_id" aria-describedby="IdHelp">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="update_restaurant_Name">Restaurant Name</label>
+                            <input type="text" class="form-control" id="update_restaurant_Name" aria-describedby="update_restaurant_NameHelp" placeholder="Restaurant Name">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="update_address">Address</label>
+                            <input type="text" class="form-control" id="update_address" aria-describedby="update_addressHelp" placeholder="Address">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="update_email_Id">Email Id</label>
+                            <input type="text" class="form-control" id="update_email_Id" aria-describedby="update_email_IdHelp" placeholder="Email Id">
+                        </div>
+                        <div class="form-group">
+                            <label for="update_contact_Number">Contact Number</label>
+                            <input type="number" class="form-control" id="update_contact_Number" aria-describedby="update_contact_NumberHelp" placeholder="Contact Number">
+                        </div>
+
+                        <div class="form-group" id="update_result">
+
+
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="updateRestaurants()">Update Restaurants</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <! -- java script files that will help to link the front end and back end -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        var uri = 'api/Restaurants';
+        $(document).ready(function () {
+            // Gets all Restaurants
+            $.getJSON(uri)
+                .done(function (data) {
+                    $("#RestaurantsTemplate").tmpl(data).appendTo("#allRestaurants");
+                });
+        });
+        function getAllRestaurants() {
+            $.getJSON(uri)
+                .done(function (data) {
+                    $("#allRestaurants").text("");
+                    $("#RestaurantsTemplate").tmpl(data).appendTo("#allRestaurants");
+                });
+        }
+        function addRestaurants() {
+            var _restaurant_Name = $('#restaurant_Name').val();
+            var _address = $('#address').val();
+            var _email_Id = $('#email_Id').val();
+            var _contact_Number = $('#contact_Number').val();
+            var Restaurant = {
+                restaurant_Name: _restaurant_Name,
+                address: _address,
+                email_Id: _email_Id,
+                contact_Number: _contact_Number
+            };
+            $.ajax({
+                type: "POST",
+                url: uri,
+                data: JSON.stringify(Restaurant),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#result").html("Success");
+                getAllRestaurants();
+            }).fail(function (jqXHR, textStatus) {
+                $("#result").html("An error occured when Adding the restaurant record.");
+            });
+        }
+        //funtion to fill the data into update template
+
+        function getupdate_Restaurants(id) {
+            $.ajax({
+                type: "GET",
+                url: uri + "/" + id,
+                contentType: "application/json"
+            }).done(function (response) {
+                $('#_id').val(response.restaurant_ID);
+                $('#update_restaurant_Name').val(response.restaurant_Name);
+                $('#update_address').val(response.address);
+                $('#update_email_Id').val(response.email_Id);
+                $('#update_contact_Number').val(response.contact_Number);
+            });
+        }
+
+        // function to update data of the customer
+        function updateRestaurants() {
+            var _restaurant_Name = $('#update_restaurant_Name').val();
+            var _address = $('#update_address').val();
+            var _email_Id = $('#update_email_Id').val();
+            var _contact_Number = ($('#update_contact_Number').val());
+            var updateRestaurants = {
+                restaurant_ID: parseInt($('#_id').val()),
+                restaurant_Name: _restaurant_Name,
+                address: _address,
+                email_Id: _email_Id,
+                contact_Number: _contact_Number
+            };
+            $.ajax({
+                type: "PUT",
+                url: uri + "/" + $('#_id').val(),
+                data: JSON.stringify(updateRestaurants),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#update_result").html("Success");
+                getAllRestaurants();
+            }).fail(function (jqXHR, textStatus) {
+                $("#update_result").html("An error occured when Adding the bike record.");
+            });
+        }
+
+
+        //funtion to delete a particular book based on id
+
+        function remove(id) {
+            var yes = confirm("Are you sure you want to delete this Bike?");
+            if (yes) {
+                $.ajax({
+                    type: "DELETE",
+                    url: uri + "/" + id,
+                }).done(function (response) {
+                    getAllRestaurants();
+                });
+            }
+        }
+    </script>
+
+    <script id="RestaurantsTemplate" type="text/x-jquery-tmpl">
+       
+            <div class="card card text-black bg-secondary border-warning mb-3" style="width: 60%;">
+                <table id="customers">
+                    <tr>
+                    <th >Restaurant Name: ${restaurant_Name}</th></tr>
+                    <tr>
+                    <td >Address :  ${address}</td>
+                        </tr>
+                    <tr>
+                        <td >Email Id : ${email_Id}</td>
+                    </tr>
+                    <tr>
+                        <td >Contact Number : ${contact_Number}</td>
+  
+                     </tr>
+                </table>
+                <span>
+                    <button class="btn btn-outline-warning" onclick="getupdate_Restaurants('${restaurant_ID}')" data-toggle="modal" data-target="#update_Restaurants">Update</button>
+                    <a href="#" class="btn btn-danger" onclick="remove('${restaurant_ID}')">Delete</a>
+                </span>
+            </div>
+        
+    </script>
+
+
+</body>
+</html>
